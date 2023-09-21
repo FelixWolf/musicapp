@@ -1,0 +1,68 @@
+{% extends "base.htm" %}
+{% block title %}Search{% endblock %}
+{% block content %}
+        <main class="container text-center">
+            <!-- This page could look a lot better! -->
+            <h1 class="h3 mb-3 font-weight-normal">Search</h1>
+            <form class="d-flex gap-2" action="/search" method="GET">
+                <input class="form-control flex-fill" type="search" name="query" placeholder="Search" aria-label="Search" value="{{ query }}"/>
+                <div class="btn-group">
+                    <input type="checkbox" class="btn-check" name="type[]" id="option1" value="rendition" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="option1">Renditions</label>
+
+                    <input type="checkbox" class="btn-check" name="type[]" id="option2" value="track" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary" for="option2">Tracks</label>
+
+                    <input type="checkbox" class="btn-check" name="type[]" id="option3" value="album" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary" for="option3">Albums</label>
+
+                    <input type="checkbox" class="btn-check" name="type[]" id="option4" value="artist"  autocomplete="off" checked>
+                    <label class="btn btn-outline-primary" for="option4">Artists</label>
+                    
+                    <input type="checkbox" class="btn-check" name="type[]" id="option5" value="user" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="option5">Users</label>
+                </div>
+                <input class="btn btn-primary" type="submit" value="Search &raquo;">
+            </form>
+            <hr/>
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">Type</th>
+                    <th scope="col">Text</th>
+                    <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in page_obj %}
+                    <tr>
+                        <th scope="row">{{ result.type|capfirst }}</th>
+                        <td><a href="/{{ result.type }}/{{ result.id }}">{% firstof result.title result.name result.username %}</a></td>
+                        <td>{{ result.date|date:"SHORT_DATETIME_FORMAT" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo; Previous</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link disabled" href="?page={{ 0 }}">&laquo; Previous</a></li>
+                    {% endif %}
+                    {% for page_number in page_obj.adjusted_elided_pages %}
+                        {% if page_number == page_obj.paginator.ELLIPSIS %}
+                            <li class="page-item"><a class="page-link disabled" href="?page={{ page_number }}">...</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link{% if page_number == page_obj.number %} active{% endif %}" href="?page={{ page_number }}">{{page_number}}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next &raquo;</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link disabled" href="?page={{ page_obj.num_pages }}">Next &raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </main>
+{% endblock %}

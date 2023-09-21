@@ -1,0 +1,27 @@
+{% extends "base.htm" %}
+{% block title %}{{ track.title }} - Renditions{% endblock %}
+{% block content %}
+        <main class="container text-center">
+            <h1>Renditions for {{ track.title }}</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Uploader</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Modified</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rendition in renditions %}
+                    <tr class="{% if rendition == track.rendition %}table-success{% endif %}">
+                        <th scope="row"><a href="/rendition/{{rendition.id}}">{{ rendition.id }}</a></th>
+                        <td>{{ rendition.creator.displayname|default:"(Unknown)" }}</td>
+                        <td>{{ rendition.created|date:"SHORT_DATETIME_FORMAT" }}</td>
+                        <td>{{ rendition.modified|date:"SHORT_DATETIME_FORMAT" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </main>
+{% endblock %}

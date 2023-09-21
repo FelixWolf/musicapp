@@ -1,0 +1,88 @@
+{% extends "base.htm" %}
+{% block title %}{{ track.title }}{% endblock %}
+{% block content %}
+        <main class="container text-center">
+            <div class="p-1 mb-4 rounded-3 d-flex flex-row bg-secondary bg-gradient">
+                <img src="http://secondlife.com/app/image/{{ track.artwork }}/1" width="192" height="192" class="rounded m-2" />
+                <div class="container-fluid py-1 flex-fill mt-2">
+                    <h2 class="text-start">
+                    {% if track.album %}
+                        <a class="link-body-emphasis" href="/album/{{track.album.id}}">{{ track.album.name }}</a> &mdash;
+                    {% endif %}
+                    {{ track.title }}</h2>
+                    {% if track.artist %}
+                        <p class="text-start col-md-8 fs-8 ms-2"><a class="link-body-emphasis" href="/artist/{{track.artist.id}}">{{ track.artist.name }}</a></p>
+                    {% endif %}
+                    <p class="col-md-8 fs-4 d-flex flex-row align-items-center">
+                        <button type="button" class="btn btn-primary material-icons">play_arrow</button>
+                        <input type="range" class="form-range flex-fill ms-2" step="0" value="0" min="0" max="{{ track.rendition.segments|length }}" id="disabledRange">
+                    </p>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <div class="flex-fill flex-grow"><!--
+                    Comments or something go here. Maybe rendition list?
+                --></div>
+                <div class="mt-auto text-start" style="font-size:0.75em;width:15%">
+                    <h5>Track:</h5>
+                    {% if track.creator %}
+                        <p>Uploader:<br/>
+                        <span class="ms-2">{{ track.creator.displayname }}</span>
+                        </p>
+                    {% endif %}
+                    <p>Created:<br/>
+                        <span class="ms-2">{{ track.created|date:"SHORT_DATETIME_FORMAT" }}</span>
+                    </p>
+                    {% if track.modifier %}
+                    <p>Modifier:<br/>
+                        <span class="ms-2">{{ track.modifier.displayname }}</span>
+                    </p>
+                    {% endif %}
+                    {% if track.modified %}<p>Modified:<br/>
+                        <span class="ms-2">{{ track.modified|date:"SHORT_DATETIME_FORMAT" }}</span>
+                    </p>
+                    {% endif %}
+                    <div class="d-flex gap-3 justify-content-center align-self-center">
+                        <a class="link-info" href="/track/{{ track.id}}/edit"><span class="material-icons">edit_note</span> Edit</a>
+                        <div class="vr"></div>
+                        <a class="link-danger" href="/report?type=track&id={{ track.id }}"><span class="material-icons">flag</span> Report</a>
+                    </div>
+                    <hr/>
+                    <h5><a class="link-body-emphasis" href="/rendition/{{ track.rendition.id }}">Rendition</a>:</h5>
+                    {% if track.rendition.creator %}
+                        <p>Uploader:<br/>
+                        <span class="ms-2">{{ track.rendition.creator.displayname }}</span>
+                        </p>
+                    {% endif %}
+                    <p>Created:<br/>
+                        <span class="ms-2">{{ track.rendition.created|date:"SHORT_DATETIME_FORMAT" }}</span>
+                    </p>
+                    {% if track.rendition.modifier %}
+                    <p>Modifier:<br/>
+                        <span class="ms-2">{{ track.rendition.modifier.displayname }}</span>
+                    </p>
+                    {% endif %}
+                    {% if track.rendition.modified %}
+                    <p>Modified:<br/>
+                        <span class="ms-2">{{ track.rendition.modified|date:"SHORT_DATETIME_FORMAT" }}</span>
+                    </p>
+                    {% endif %}
+                    <p>Duration:<br/>
+                        <span class="ms-2">{{ track.rendition.duration }}</span>
+                    </p>
+                    <p>Segments:<br/>
+                        <span class="ms-2">{{ track.rendition.segments|length }}</span>
+                    </p>
+                    <p>Segment size:<br/>
+                        <span class="ms-2">{{ track.rendition.segmentLength }}</span>
+                    </p>
+                    <div class="d-flex gap-3 justify-content-center align-self-center">
+                        <a class="link-info" href="/rendition/{{ track.rendition.id }}/edit"><span class="material-icons">edit_note</span> Edit</a>
+                        <div class="vr"></div>
+                        <a class="link-danger" href="/report?type=rendition&id={{ rendition.id }}"><span class="material-icons">flag</span> Report</a>
+                    </div><br/>
+                    <a href="/track/{{ track.id }}/renditions">Show all renditions&mldr;</a>
+                </div>
+            </div>
+        </main>
+{% endblock %}

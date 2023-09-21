@@ -1,0 +1,24 @@
+{% extends "base.htm" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+        <main class="container text-center">
+            {% if state == "login" %}
+            <h1 class="h3 mb-3 font-weight-normal">Log in with Second Life&reg;</h1>
+            <form method="POST">
+                <label for="inputCommand" class="sr-only">Please enter your Second Life&reg; Username</label><br/><br/>
+                <input id="inputCommand" class="text-center display-4" name="username" type="text" placeholder="Magellan Linden"/><br/><br/>
+                <input class="btn btn-primary" type="submit" value="Next &raquo;">
+            </form>
+            {% elif state == "requested" %}
+            <h1 class="h3 mb-3 font-weight-normal">Login URL requested!</h1>
+            <span>Please check Second Life&reg; for your login link.</span>
+            {% elif state == "error" %}
+            <h1 class="h3 mb-3 font-weight-normal">Oops!</h1>
+            <span>An error occured while trying to log you in:</span><br/>
+            <span>{{ reason }}</span>
+            {% elif state == "success" %}
+            <h1 class="h3 mb-3 font-weight-normal">Welcome, {{ DISPLAYNAME }}!</h1>
+            <span>You are now logged in.</span>
+            {% endif %}
+        </main>
+{% endblock %}

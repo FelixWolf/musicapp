@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{{ APP_NAME }} &dash; {% block title %}Untitled Page{% endblock %}</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js" integrity="sha512-X/YkDZyjTf4wyc2Vy16YGCPHwAY8rZJY+POgokZjQB2mhIRFJCckEGc6YyX9eNsPfn0PzThEuNs+uaomE5CO6A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">{{ APP_NAME }}</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    {% if LOGGED_IN %}
+                    <!-- Probably don't need this.
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/track">Tracks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/album">Albums</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/artist">Artists</a>
+                    </li>
+                    -->
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/upload">Upload</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/search">Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/get">Get latest version</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/user/login">Log In</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <div class="d-flex me-md-5">
+                    <span class="me-md-2">Connected to: </span>
+                    <span>NOTHING!</span>
+                </div>
+                <form class="d-flex me-md-5" action="/search" method="GET">
+                    <input type="hidden" name="type" value="*" />
+                    <input class="form-control me-2" type="search" name="query" placeholder="Search" aria-label="Search" />
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                <div>
+                    {% if LOGGED_IN %}
+                        <span class="navbar-text">
+                        <a href="/user/me" class="me-md-2"><img style="width:32px;height:32px;border-radius:32px;" src="https://my-secondlife-agni.akamaized.net/users/{{ USERNAME }}/sl_image.png"/></a>
+                        <a href="/user/me" class="me-md-4">{{ DISPLAYNAME }}</a></span>
+                        <a class="btn btn-outline-secondary btn-sm" href="/user/logout" role="button">Log out</a>
+                    {% else %}
+                        <a class="btn btn-primary btn-sm" href="/user/login" role="button">Login</a>
+                    {% endif %}
+                </div>
+                </div>
+            </div>
+        </nav>
+        {% block content %}
+        <main class="container">
+            <h1>Oh no! No Content!</h1>
+            If you are seeing this, someone failed to put the right tag in the template.<br/>
+            Please report this bug!
+        </main>
+        {% endblock %}
+        
+        <footer class="container d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <p class="col-md-4 mb-0 text-muted">Second Life® is a trademark of Linden Research, Inc. {{ APP_NAME }} is not not affiliated with, endorsed by, or sponsored by Linden Research.</p>
+
+            <ul class="nav col-md-4 justify-content-end">
+                <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>
+                {% if LOGGED_IN %}
+                <li class="nav-item"><a href="/dumps" class="nav-link px-2 text-muted">Database Dumps</a></li>
+                {% endif %}
+                <li class="nav-item"><a href="https://github.com/felixwolf/musicapp" class="nav-link px-2 text-muted">Github</a></li>
+                <li class="nav-item"><a href="https://secondlife.com/" class="nav-link px-2 text-muted">Second Life</a></li>
+            </ul>
+        </footer>
+    </body>
+</html>
+ 
