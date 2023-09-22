@@ -30,6 +30,5 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('get/', include('get.urls')),
     path('search/', include('search.urls')),
-    path('api/', include('api.urls')),
-    path('createTestData', views.createTestData),
+    path('api/', include('api.urls'))
 ]
