@@ -11,6 +11,8 @@ class Track(models.Model):
     
     title = models.CharField(max_length=255)
     
+    trackNumber = models.SmallIntegerField(null=True)
+    
     artist = models.ForeignKey("artist.Artist", null=True, on_delete=models.SET_NULL)
     album = models.ForeignKey("album.Album", null=True, on_delete=models.SET_NULL)
     
