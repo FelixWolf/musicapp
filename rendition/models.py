@@ -11,7 +11,7 @@ class Rendition(models.Model):
     
     track = models.ForeignKey("track.Track", null=True, on_delete=models.SET_NULL, related_name="rendition_track")
     
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, null=True)
     
     created = models.DateTimeField(auto_now_add=True)
     creator = models.ForeignKey("user.User", null=True, on_delete=models.SET_NULL, related_name="rendition_creator")
