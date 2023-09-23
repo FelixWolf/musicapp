@@ -6,7 +6,8 @@ from user.models import User
 def Context(request):
     context = {
         "LOGGED_IN": False,
-        "APP_NAME": settings.APP_NAME
+        "APP_NAME": settings.APP_NAME,
+        "DEBUG": settings.DEBUG
     }
     
     if "userid" in request.session:
