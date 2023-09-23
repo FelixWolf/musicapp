@@ -26,6 +26,10 @@ SECRET_KEY = os.getenv("SECRET_KEY", None) or 'django-insecure-h-@4q#&7#d6b1vv71
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'true').lower() == 'true'
 
+APP_ENVIRONMENT_DEVELOPMENT = "development"
+APP_ENVIRONMENT_PRODUCTION = "production"
+APP_ENVIRONMENT = os.getenv('APP_ENVIRONMENT', APP_ENVIRONMENT_DEVELOPMENT).lower()
+
 APP_NAME = "musicapp"
 
 ALLOWED_HOSTS = [
@@ -92,12 +96,23 @@ WSGI_APPLICATION = 'musicapp.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+DATABASE_OPTIONS = {
+    APP_ENVIRONMENT_PRODUCTION: {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': "musicapp",
+        'USER': os.getenv("APP_DB_USER", APP_NAME),
+        'PASSWORD': os.getenv("APP_DB_PASSWORD", None),
+        'HOST': 'localhost',
+        'PORT': '5432',
+    },
+    APP_ENVIRONMENT_DEVELOPMENT: {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': '../musicapp.sqlite3',
+    }
+}
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / '../musicapp.sqlite3',
-    }
+    'default': DATABASE_OPTIONS.get(APP_ENVIRONMENT, DATABASE_OPTIONS[APP_ENVIRONMENT_DEVELOPMENT])
 }
 
 
@@ -138,6 +153,10 @@ USE_TZ = False
 STATIC_URL = 'static/'
 
 STATIC_ROOT = "/var/www/musicapp.apps.softhyena.com/public_html/static/"
+
+STATICFILES_DIRS = [
+    BASE_DIR / "musicapp/static"
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
